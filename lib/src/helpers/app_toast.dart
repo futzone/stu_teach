@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/src/theme/app_theme.dart';
+import 'package:student_app/src/theme/app_colors.dart';
 
 class ShowToast {
-  static success({required BuildContext context, required String message}) {
+  static success({required BuildContext context, required String message, required AppColors colors}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppTheme.colors.secondaryBgColor,
+        backgroundColor: colors.secondaryBgColor,
         content: ListTile(
           leading: const Icon(Icons.done, color: Colors.green),
           title: Text(
@@ -21,10 +21,10 @@ class ShowToast {
     );
   }
 
-  static warning({required BuildContext context, required String message}) {
+  static warning({required BuildContext context, required String message, required AppColors colors}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppTheme.colors.secondaryBgColor,
+        backgroundColor: colors.secondaryBgColor,
         content: ListTile(
           leading: const Icon(Icons.warning, color: Colors.amber),
           title: Text(
@@ -40,10 +40,10 @@ class ShowToast {
     );
   }
 
-  static error({required BuildContext context, required String message}) {
+  static error({required BuildContext context, required String message, required AppColors colors}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: AppTheme.colors.secondaryBgColor,
+        backgroundColor: colors.secondaryBgColor,
         content: ListTile(
           leading: const Icon(Icons.error_outline, color: Colors.redAccent),
           title: Text(

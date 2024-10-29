@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:student_app/src/theme/app_theme.dart';
+import 'package:student_app/src/theme/app_colors.dart';
 
 class AppTextField extends StatelessWidget {
+  final AppColors colors;
   final String title;
   final bool onlyRead;
   final TextEditingController controller;
@@ -21,6 +22,7 @@ class AppTextField extends StatelessWidget {
     this.radius = 48,
     required this.title,
     required this.controller,
+    required this.colors,
     this.minLines,
     this.suffixIcon,
     this.maxLines,
@@ -33,8 +35,6 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = AppTheme.colors;
-
     return TextField(
       keyboardType: textInputType,
       readOnly: onlyRead,

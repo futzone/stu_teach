@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../theme/app_theme.dart';
+import 'package:student_app/src/theme/app_colors.dart';
 
 class AppNetworkImage extends StatelessWidget {
   final String? url;
@@ -40,8 +39,8 @@ class AppNetworkImage extends StatelessWidget {
         },
         placeholder: (context, url) {
           return Shimmer.fromColors(
-            baseColor: AppTheme.colors.baseColor,
-            highlightColor: AppTheme.colors.highlightColor,
+            baseColor: AppColors(false, false).baseColor,
+            highlightColor: AppColors(false, false).highlightColor,
             child: Container(color: Colors.white),
           );
         },

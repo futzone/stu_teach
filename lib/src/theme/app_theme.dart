@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:student_app/src/theme/app_colors.dart';
-import 'package:student_app/src/theme/app_styles.dart';
 
-
-class AppTheme {
-  static AppColors get colors => AppColors();
-
-  static AppTextStyles get styles => AppTextStyles();
+ThemeData appThemeData(AppColors appTheme) {
+  return ThemeData(
+    datePickerTheme: DatePickerThemeData(
+      headerHelpStyle: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: appTheme.textColor,
+      ),
+    ),
+    timePickerTheme: TimePickerThemeData(
+      backgroundColor: appTheme.secondaryBgColor,
+    ),
+    scaffoldBackgroundColor: appTheme.scaffoldBgColor,
+    appBarTheme: AppBarTheme(
+      backgroundColor: appTheme.appbarColor,
+      iconTheme: IconThemeData(color: appTheme.textColor),
+      titleTextStyle: TextStyle(
+        color: appTheme.textColor,
+        fontSize: 24,
+      ),
+    ),
+  );
 }
 
-void use() {
-  AppTheme.styles.style12;
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
+  }
 }
