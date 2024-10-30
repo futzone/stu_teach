@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_app/src/theme/app_colors.dart';
 
 class AppLoadingScreen extends StatelessWidget {
   final EdgeInsets? padding;
@@ -8,15 +9,20 @@ class AppLoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: padding ?? EdgeInsets.zero,
-        child: SizedBox(
-          height: size,
-          width: size,
-          child: const CircularProgressIndicator(strokeWidth: 8),
+    return AppThemeWrapper(builder: (theme) {
+      return Center(
+        child: Padding(
+          padding: padding ?? EdgeInsets.zero,
+          child: SizedBox(
+            height: size,
+            width: size,
+            child: CircularProgressIndicator(
+              strokeWidth: 8,
+              color: theme.mainColor,
+            ),
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

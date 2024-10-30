@@ -17,7 +17,7 @@ final worksProvider = FutureProvider((ref) async {
 
 final userWorksProvider = FutureProvider.family((Ref ref, String id) async {
   AppFirestoreServices appFirestoreServices = AppFirestoreServices();
-  final fireData = await appFirestoreServices.query(collection: appFirestoreServices.workCollection, key: 'userID', equal: id);
+  final fireData = await appFirestoreServices.query(collection: appFirestoreServices.workCollection, key: 'userID', equal: id, limit: 99);
   List<WorkModel> tasks = [];
   for (final item in fireData) {
     tasks.add(WorkModel.fromJson(item.data()));

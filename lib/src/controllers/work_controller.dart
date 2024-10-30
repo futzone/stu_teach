@@ -45,6 +45,7 @@ class WorkController {
     double? fileSize;
     String fileUrl = '';
     if (filePath.isNotEmpty) {
+      print(filePath);
       final File file = File(filePath);
       final fileStat = await file.stat();
       fileSize = fileStat.size.toDouble();
@@ -74,6 +75,8 @@ class WorkController {
         AppRouter.close(context);
         AppRouter.close(context);
         ref.invalidate(worksProvider);
+        AppRouter.close(context);
+
       });
     });
   }

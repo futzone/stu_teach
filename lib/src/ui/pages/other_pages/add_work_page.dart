@@ -32,7 +32,7 @@ class AddWorkPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final titleController = useTextEditingController(text: work?.text);
-    final filePath = useState(task.file);
+    final filePath = useState(work == null ? '' : work!.file);
     final haveFileChanges = useState(false);
 
     return AppThemeWrapper(builder: (theme) {

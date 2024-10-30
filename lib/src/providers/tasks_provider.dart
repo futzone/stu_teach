@@ -17,7 +17,7 @@ final tasksProvider = FutureProvider((ref) async {
 
 final userTasksProvider = FutureProvider.family((ref, String id) async {
   AppFirestoreServices appFirestoreServices = AppFirestoreServices();
-  final fireData = await appFirestoreServices.query(collection: appFirestoreServices.taskCollection, key: 'teacherId', equal: id);
+  final fireData = await appFirestoreServices.query(collection: appFirestoreServices.taskCollection, key: 'teacherId', equal: id, limit: 99);
   List<TaskModel> tasks = [];
   for (final item in fireData) {
     // item as QueryDocumentSnapshot;
