@@ -60,7 +60,6 @@ class AuthorizationController {
 
       if (data is Map) role = data['role'];
 
-      AppRouter.close(context);
       if (role != (isUser ? 'student' : 'teacher')) {
         ShowToast.error(
           context: context,

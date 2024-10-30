@@ -26,3 +26,10 @@ final userTasksProvider = FutureProvider.family((ref, String id) async {
 
   return tasks;
 });
+
+final oneTaskProvider = FutureProvider.family((ref, String id) async {
+  AppFirestoreServices appFirestoreServices = AppFirestoreServices();
+  final fireData = await appFirestoreServices.query(collection: appFirestoreServices.taskCollection, key: 'id', equal: id);
+  if (fireData.isEmpty) return null;
+  return TaskModel.fromJson(fireData.first.data());
+});

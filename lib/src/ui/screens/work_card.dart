@@ -14,11 +14,13 @@ import 'package:student_app/src/utils/task_status.dart';
 class WorkCard extends StatelessWidget {
   final WorkModel work;
   final AppColors theme;
+  final void Function() onPressedOpen;
 
   const WorkCard({
     super.key,
     required this.theme,
     required this.work,
+    required this.onPressedOpen,
   });
 
   @override
@@ -43,31 +45,32 @@ class WorkCard extends StatelessWidget {
             ),
           ),
           if (work.file.isNotEmpty) HBox(8),
-          SimpleButton(
-            onPressed: () async {
-              showAppLoadingDialog(context);
-              await FileServices.downloadFile(work.file, work.fileType).then((value) async {
-                AppRouter.close(context);
-                if (value != null) await FileServices.openFile(value);
-              });
-            },
-            child: Container(
-              padding: Dis.only(lr: 8, tb: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: theme.secondaryBgColor,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.file_present_outlined, color: theme.textColor, size: 20),
-                  WBox(8),
-                  Text("${((work.fileSize ?? 0.0) / (1024 * 1024)).toStringAsFixed(2)} Mb   Faylni ko'rish",
-                      style: TextStyle(color: theme.textColor)),
-                ],
+          if (work.file.isNotEmpty)
+            SimpleButton(
+              onPressed: () async {
+                showAppLoadingDialog(context);
+                await FileServices.downloadFile(work.file, work.fileType).then((value) async {
+                  AppRouter.close(context);
+                  if (value != null) await FileServices.openFile(value);
+                });
+              },
+              child: Container(
+                padding: Dis.only(lr: 8, tb: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: theme.secondaryBgColor,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.file_present_outlined, color: theme.textColor, size: 20),
+                    WBox(8),
+                    Text("${((work.fileSize ?? 0.0) / (1024 * 1024)).toStringAsFixed(2)} Mb   Faylni ko'rish",
+                        style: TextStyle(color: theme.textColor)),
+                  ],
+                ),
               ),
             ),
-          ),
           if (work.text.isNotEmpty) HBox(8),
           if (work.text.isNotEmpty)
             Text(
@@ -88,7 +91,7 @@ class WorkCard extends StatelessWidget {
             ),
           ),
           HBox(12),
-          AppButton(title: "Batafsil", onPressed: () {}),
+          AppButton(title: "Batafsil", onPressed: onPressedOpen),
         ],
       ),
     );

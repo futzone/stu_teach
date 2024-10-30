@@ -27,46 +27,54 @@ class TasksPage extends HookConsumerWidget {
                   child: Icon(Icons.add, color: Colors.white),
                 ),
           body: ref.watch(userProvider).when(
-              loading: () => AppLoadingScreen(),
-              error: (e, m) => AppErrorScreen(onFixError: () => ref.invalidate(tasksProvider), message: "$e $m"),
-              data: (user) {
-                return ref.watch(theme.isUserMode ? tasksProvider : userTasksProvider(user.userID)).when(
-                      loading: () => AppLoadingScreen(),
-                      error: (e, m) => AppErrorScreen(onFixError: () => ref.invalidate(tasksProvider), message: "$e $m"),
-                      data: (data) {
-                        if (data.isEmpty) {
-                          return Center(
-                            child: Text(
-                              'Vazifalar mavjud emas',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: theme.textColor,
+                loading: () => AppLoadingScreen(),
+                error: (e, m) => AppErrorScreen(
+                  onFixError: () => ref.invalidate(tasksProvider),
+                  message: "$e $m",
+                ),
+                data: (user) {
+                  return ref.watch(theme.isUserMode ? tasksProvider : userTasksProvider(user.userID)).when(
+                        loading: () => AppLoadingScreen(),
+                        error: (e, m) => AppErrorScreen(
+                          onFixError: () => ref.invalidate(tasksProvider),
+                          message: "$e $m",
+                        ),
+                        data: (data) {
+                          if (data.isEmpty) {
+                            return Center(
+                              child: Text(
+                                'Vazifalar mavjud emas',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: theme.textColor,
+                                ),
                               ),
-                            ),
-                          );
-                        } else {
-                          return RefreshIndicator(
-                            color: theme.mainColor,
-                            backgroundColor: theme.secondaryBgColor,
-                            elevation: 0.0,
-                            onRefresh: () {
-                              ref.invalidate(tasksProvider);
-                              ref.invalidate(userTasksProvider(user.userID));
+                            );
+                          } else {
+                            return RefreshIndicator(
+                              color: theme.mainColor,
+                              backgroundColor: theme.secondaryBgColor,
+                              elevation: 0.0,
+                              onRefresh: () {
+                                ref.invalidate(userProvider);
+                                ref.invalidate(tasksProvider);
+                                ref.invalidate(userTasksProvider(user.userID));
 
-                              return Future.value();
-                            },
-                            child: ListView.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return TaskCard(theme: theme, task: data[index]);
+                                return Future.value();
                               },
-                            ),
-                          );
-                        }
-                      },
-                    );
-              }),
+                              child: ListView.builder(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return TaskCard(theme: theme, task: data[index]);
+                                },
+                              ),
+                            );
+                          }
+                        },
+                      );
+                },
+              ),
         );
       },
     );

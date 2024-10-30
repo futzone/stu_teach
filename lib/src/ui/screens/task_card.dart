@@ -16,9 +16,11 @@ import '../pages/other_pages/open_tsk_page.dart';
 class TaskCard extends StatelessWidget {
   final TaskModel task;
   final AppColors theme;
+  final EdgeInsets? margin;
 
   const TaskCard({
     super.key,
+    this.margin,
     required this.theme,
     required this.task,
   });
@@ -26,7 +28,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: Dis.only(lr: 16, tb: 8),
+      margin: margin ?? Dis.only(lr: 16, tb: 8),
       padding: Dis.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

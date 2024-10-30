@@ -1,5 +1,6 @@
 class WorkModel {
   String taskID;
+  String id;
   String userID;
   String createdDate;
   String status;
@@ -12,6 +13,7 @@ class WorkModel {
 
   WorkModel({
     required this.taskID,
+    required this.id,
     required this.userID,
     required this.createdDate,
     required this.status,
@@ -34,11 +36,13 @@ class WorkModel {
         'fileType': fileType,
         'fileSize': fileSize,
         'text': text,
+        'id': id,
       };
 
   factory WorkModel.fromJson(dynamic json) {
     return WorkModel(
       taskID: json['taskID'],
+      id: json['id'] ?? '',
       userID: json['userID'],
       createdDate: json['createdDate'],
       status: json['status'],

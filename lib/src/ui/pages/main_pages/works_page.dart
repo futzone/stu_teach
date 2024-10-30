@@ -8,6 +8,7 @@ import 'package:student_app/src/providers/user_provider.dart';
 import 'package:student_app/src/providers/works_provider.dart';
 import 'package:student_app/src/theme/app_colors.dart';
 import 'package:student_app/src/ui/pages/other_pages/add_task_page.dart';
+import 'package:student_app/src/ui/pages/other_pages/open_wrk_page.dart';
 
 import '../../screens/work_card.dart';
 
@@ -60,7 +61,16 @@ class WorksPage extends HookConsumerWidget {
                               child: ListView.builder(
                                 itemCount: data.length,
                                 itemBuilder: (context, index) {
-                                  return WorkCard(theme: theme, work: data[index]);
+                                  return WorkCard(
+                                    theme: theme,
+                                    work: data[index],
+                                    onPressedOpen: () {
+                                      AppRouter.go(
+                                        context,
+                                        OpenWrkPage(userModel: user, workModel: data[index]),
+                                      );
+                                    },
+                                  );
                                 },
                               ),
                             );
