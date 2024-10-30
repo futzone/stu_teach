@@ -53,7 +53,7 @@ class AddTaskPage extends HookConsumerWidget {
       }
 
       return Scaffold(
-        appBar: AppBar(title: Text("Yangi vazifa")),
+        appBar: AppBar(title: Text(task == null ? "Yangi vazifa" : "Tahrirlash")),
         body: SingleChildScrollView(
           padding: Dis.only(lr: 16, tb: 8),
           child: Column(

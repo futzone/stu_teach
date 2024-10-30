@@ -12,6 +12,8 @@ import 'package:student_app/src/services/database_services/theme_mode_db.dart';
 import 'package:student_app/src/theme/app_colors.dart';
 import 'package:student_app/src/ui/pages/authorization_pages/sign_in_page.dart';
 
+import '../../../providers/user_provider.dart';
+
 class SignUpPage extends HookConsumerWidget {
   const SignUpPage({super.key});
 
@@ -36,6 +38,9 @@ class SignUpPage extends HookConsumerWidget {
           );
 
           controller.onSignUp();
+          Future.delayed(Duration(milliseconds: 100), () {
+            ref.invalidate(userProvider);
+          });
         }
 
         return Scaffold(

@@ -30,11 +30,6 @@ class AppNavbar extends HookConsumerWidget {
           backgroundColor: theme.appbarColor,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.groups_sharp),
-          label: theme.isUserMode ? "O'qituvchilar" : 'Talabalar',
-          backgroundColor: theme.appbarColor,
-        ),
-        BottomNavigationBarItem(
           icon: Icon(Icons.settings),
           label: 'Sozlamalar',
           backgroundColor: theme.appbarColor,

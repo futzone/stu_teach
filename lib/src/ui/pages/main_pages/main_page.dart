@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:student_app/src/theme/app_colors.dart';
 import 'package:student_app/src/ui/pages/main_pages/settings_page.dart';
 import 'package:student_app/src/ui/pages/main_pages/tasks_page.dart';
-import 'package:student_app/src/ui/pages/main_pages/users_page.dart';
 import 'package:student_app/src/ui/pages/main_pages/works_page.dart';
 import 'package:student_app/src/ui/widgets/app_navbar.dart';
 
@@ -19,7 +18,7 @@ class MainPage extends HookConsumerWidget {
         return Scaffold(
           bottomNavigationBar: AppNavbar(theme: theme, currentPage: currentPage),
           body: Builder(builder: (context) {
-            return [TasksPage(), WorksPage(), UsersPage(), SettingsPage()][currentPage.value];
+            return [TasksPage(), WorksPage(), SettingsPage()][currentPage.value];
           }),
         );
       },

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:student_app/src/config/app_router.dart';
 import 'package:student_app/src/controllers/task_controller.dart';
+import 'package:student_app/src/helpers/app_button.dart';
 import 'package:student_app/src/helpers/app_custom_padding.dart';
 import 'package:student_app/src/helpers/app_error_screen.dart';
 import 'package:student_app/src/helpers/app_loading_dialog.dart';
@@ -14,7 +15,8 @@ import 'package:student_app/src/providers/user_provider.dart';
 import 'package:student_app/src/services/file_services/file_services.dart';
 import 'package:student_app/src/theme/app_colors.dart';
 import 'package:student_app/src/ui/pages/other_pages/add_task_page.dart';
-import 'package:student_app/src/ui/screens/task_card.dart';
+
+import 'add_work_page.dart';
 
 class OpenTskPage extends ConsumerWidget {
   final TaskModel task;
@@ -116,9 +118,41 @@ class OpenTskPage extends ConsumerWidget {
                           color: theme.textColor,
                         ),
                       ),
+                      HBox(8),
+                      if (theme.isUserMode)
+                        Text(
+                          "O'qituvchi: ${task.teacherName}",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: theme.textColor,
+                          ),
+                        ),
                     ],
                   ),
                 ),
+                bottomNavigationBar: data.role == 'teacher'
+                    ? null
+                    : Container(
+                        height: 56,
+                        padding: Dis.only(lr: 16, top: 4, bottom: 2),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: theme.appbarColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                        ),
+                        child: Center(
+                          child: AppButton(
+                            title: "Topshirish",
+                            onPressed: () {
+                              AppRouter.go(context, AddWorkPage(task: task, user: data));
+                            },
+                          ),
+                        ),
+                      ),
               );
             },
           );

@@ -1,0 +1,4 @@
+enum TaskStatus {
+  pending,
+  rated,
+}

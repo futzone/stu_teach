@@ -8,6 +8,7 @@ import 'package:student_app/src/helpers/app_button.dart';
 import 'package:student_app/src/helpers/app_custom_padding.dart';
 import 'package:student_app/src/helpers/app_sized_boxes.dart';
 import 'package:student_app/src/helpers/app_text_field.dart';
+import 'package:student_app/src/providers/user_provider.dart';
 import 'package:student_app/src/services/database_services/theme_mode_db.dart';
 import 'package:student_app/src/theme/app_colors.dart';
 import 'package:student_app/src/ui/pages/authorization_pages/sign_up_page.dart';
@@ -33,6 +34,9 @@ class SignInPage extends HookConsumerWidget {
           );
 
           controller.onSignIn();
+          Future.delayed(Duration(milliseconds: 100), () {
+            ref.invalidate(userProvider);
+          });
         }
 
         return Scaffold(
