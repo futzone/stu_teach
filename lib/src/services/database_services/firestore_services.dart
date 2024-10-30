@@ -28,4 +28,17 @@ class AppFirestoreServices {
     final data = await _database.collection(collection).get();
     return data.docs;
   }
+
+  Future<List<DocumentSnapshot>> query({required String collection, required String key, required dynamic equal, int limit = 1}) async {
+    try {
+      QuerySnapshot snapshot = await _database.collection(collection).where(key, isEqualTo: equal).limit(limit).get();
+
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs;
+      }
+      return [];
+    } catch (e) {
+      return [];
+    }
+  }
 }

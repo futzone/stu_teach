@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:student_app/src/config/app_router.dart';
 import 'package:student_app/src/helpers/app_loading_dialog.dart';
 import 'package:student_app/src/helpers/app_toast.dart';
+import 'package:student_app/src/models/user_model.dart';
 import 'package:student_app/src/services/authorization_services/authorization.dart';
+import 'package:student_app/src/services/database_services/firestore_services.dart';
 import 'package:student_app/src/theme/app_colors.dart';
+import 'package:student_app/src/ui/pages/authorization_pages/sign_in_page.dart';
 import 'package:student_app/src/ui/pages/main_pages/main_page.dart';
 
 class AuthorizationController {
@@ -12,10 +15,12 @@ class AuthorizationController {
   String? password;
   String? email;
   String? fullname;
+  bool isUser;
 
   AuthorizationController({
     required this.context,
     required this.theme,
+    required this.isUser,
     this.email,
     this.password,
     this.fullname,
@@ -42,8 +47,29 @@ class AuthorizationController {
 
     showAppLoadingDialog(context);
     AuthServices authServices = AuthServices();
-    await authServices.signIn(email!, password!).then((value) {
+    await authServices.signIn(email!, password!).then((value) async {
+      AppFirestoreServices firestoreServices = AppFirestoreServices();
+      final user = await firestoreServices.query(
+        collection: firestoreServices.userCollection,
+        key: 'email',
+        equal: email,
+      );
+
+      String? role;
+      final data = user.first.data();
+
+      if (data is Map) role = data['role'];
+
       AppRouter.close(context);
+      if (role != (isUser ? 'student' : 'teacher')) {
+        ShowToast.error(
+          context: context,
+          message: "Bunday ${(isUser ? 'talaba' : 'o`qituvchi')} topilmadi. Iltimos, tekshirib, qayta urinib ko'ring",
+          colors: theme,
+        );
+        return;
+      }
+
       if (value) {
         AppRouter.open(context, MainPage());
       } else {
@@ -87,6 +113,22 @@ class AuthorizationController {
     showAppLoadingDialog(context);
     AuthServices authServices = AuthServices();
     await authServices.signUp(email!, password!).then((value) {
+      if (value) {
+        UserModel userModel = UserModel(
+          userID: '',
+          email: email!,
+          fullname: fullname!,
+          role: isUser ? 'student' : 'teacher',
+          registerDate: DateTime.now().toString(),
+        );
+
+        AppFirestoreServices firestoreServices = AppFirestoreServices();
+        firestoreServices.writeData(firestoreServices.userCollection, userModel.toMap()).then((id) async {
+          userModel.userID = id;
+          await firestoreServices.updateData(firestoreServices.userCollection, id, userModel.toMap());
+        });
+      }
+
       AppRouter.close(context);
       if (value) {
         AppRouter.open(context, MainPage());
@@ -98,5 +140,11 @@ class AuthorizationController {
         );
       }
     });
+  }
+
+  void onLogout() async {
+    AuthServices authServices = AuthServices();
+    await authServices.logout();
+    AppRouter.open(context, SignInPage());
   }
 }

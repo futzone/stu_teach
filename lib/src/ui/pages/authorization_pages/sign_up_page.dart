@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:student_app/src/config/app_router.dart';
+import 'package:student_app/src/controllers/authorization_controller.dart';
 import 'package:student_app/src/helpers/app_button.dart';
 import 'package:student_app/src/helpers/app_custom_padding.dart';
 import 'package:student_app/src/helpers/app_sized_boxes.dart';
@@ -19,8 +20,24 @@ class SignUpPage extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final fullnameController = useTextEditingController();
+
     return AppThemeWrapper(
       builder: (theme) {
+        ///
+        ///Register method
+        void onRegister() {
+          AuthorizationController controller = AuthorizationController(
+            context: context,
+            theme: theme,
+            isUser: theme.isUserMode,
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+            fullname: fullnameController.text.trim(),
+          );
+
+          controller.onSignUp();
+        }
+
         return Scaffold(
           body: Center(
             child: SingleChildScrollView(
@@ -52,7 +69,7 @@ class SignUpPage extends HookConsumerWidget {
                     colors: theme,
                   ),
                   HBox(16),
-                  AppButton(title: 'Davom etish', onPressed: () {}),
+                  AppButton(title: 'Davom etish', onPressed: onRegister),
                   HBox(16),
                   AppButton(
                     title: theme.isUserMode ? "Men o'qituvchiman" : "Men talabaman",

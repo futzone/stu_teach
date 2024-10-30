@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:student_app/src/config/app_router.dart';
+import 'package:student_app/src/controllers/authorization_controller.dart';
 import 'package:student_app/src/helpers/app_button.dart';
 import 'package:student_app/src/helpers/app_custom_padding.dart';
 import 'package:student_app/src/helpers/app_sized_boxes.dart';
@@ -21,6 +21,20 @@ class SignInPage extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     return AppThemeWrapper(
       builder: (theme) {
+        ///
+        /// onLogin method
+        void onLogin() {
+          AuthorizationController controller = AuthorizationController(
+            context: context,
+            theme: theme,
+            isUser: theme.isUserMode,
+            email: emailController.text.trim(),
+            password: passwordController.text.trim(),
+          );
+
+          controller.onSignIn();
+        }
+
         return Scaffold(
           body: Center(
             child: SingleChildScrollView(
@@ -46,7 +60,7 @@ class SignInPage extends HookConsumerWidget {
                     colors: theme,
                   ),
                   HBox(16),
-                  AppButton(title: 'Kirish', onPressed: () {}),
+                  AppButton(title: 'Kirish', onPressed: onLogin),
                   HBox(16),
                   AppButton(
                     title: theme.isUserMode ? "Men o'qituvchiman" : "Men talabaman",

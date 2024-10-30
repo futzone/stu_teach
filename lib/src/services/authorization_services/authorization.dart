@@ -34,6 +34,8 @@ class AuthServices {
 
   Stream<User?> getCurrentUser() => _firebaseAuth.authStateChanges();
 
+  User? currentUser() => _firebaseAuth.currentUser;
+
   Future<void> logout() async {
     _firebaseAuth.signOut();
   }
