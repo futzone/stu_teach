@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:student_app/src/config/app_router.dart';
 import 'package:student_app/src/helpers/app_error_screen.dart';
 import 'package:student_app/src/helpers/app_loading_screen.dart';
+import 'package:student_app/src/helpers/app_sized_boxes.dart';
 import 'package:student_app/src/providers/tasks_provider.dart';
 import 'package:student_app/src/providers/user_provider.dart';
 import 'package:student_app/src/theme/app_colors.dart';
@@ -41,15 +42,33 @@ class TasksPage extends HookConsumerWidget {
                         ),
                         data: (data) {
                           if (data.isEmpty) {
-                            return Center(
-                              child: Text(
-                                'Vazifalar mavjud emas',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: theme.textColor,
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Text(
+                                    'Vazifalar mavjud emas',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: theme.textColor,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                HBox(16),
+                                IconButton(
+                                  onPressed: () {
+                                    ref.invalidate(userProvider);
+                                    ref.invalidate(tasksProvider);
+                                    ref.invalidate(userTasksProvider(user.userID));
+                                  },
+                                  icon: Icon(
+                                    Icons.refresh,
+                                    color: theme.mainColor,
+                                  ),
+                                ),
+                              ],
                             );
                           } else {
                             return RefreshIndicator(

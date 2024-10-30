@@ -76,7 +76,7 @@ class WorkController {
         AppRouter.close(context);
         ref.invalidate(worksProvider);
         AppRouter.close(context);
-
+        ref.invalidate(userWorksProvider(userModel.userID));
       });
     });
   }

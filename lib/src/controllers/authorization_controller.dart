@@ -48,6 +48,16 @@ class AuthorizationController {
     showAppLoadingDialog(context);
     AuthServices authServices = AuthServices();
     await authServices.signIn(email!, password!).then((value) async {
+      if (!value) {
+        Navigator.pop(context);
+        ShowToast.error(
+          context: context,
+          message: "Email yoki parol xato kiritildi. Iltimos, tekshirib, qayta urinib ko'ring",
+          colors: theme,
+        );
+        return;
+      }
+
       AppFirestoreServices firestoreServices = AppFirestoreServices();
       final user = await firestoreServices.query(
         collection: firestoreServices.userCollection,
@@ -59,6 +69,7 @@ class AuthorizationController {
       final data = user.first.data();
 
       if (data is Map) role = data['role'];
+      AppRouter.close(context);
 
       if (role != (isUser ? 'student' : 'teacher')) {
         ShowToast.error(
@@ -69,15 +80,7 @@ class AuthorizationController {
         return;
       }
 
-      if (value) {
-        AppRouter.open(context, MainPage());
-      } else {
-        ShowToast.error(
-          context: context,
-          message: "Email yoki parol xato kiritildi. Iltimos, tekshirib, qayta urinib ko'ring",
-          colors: theme,
-        );
-      }
+      AppRouter.open(context, MainPage());
     });
   }
 

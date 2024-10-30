@@ -77,7 +77,7 @@ class OpenWrkPage extends HookConsumerWidget {
                       ),
                       HBox(12),
                       Text(
-                        "Siz topshirgan yechim",
+                        theme.isUserMode ? "Siz topshirgan yechim" : "Talaba tomonidan topshirilgan yechim",
                         style: TextStyle(
                           fontSize: 18,
                           color: theme.textColor,
